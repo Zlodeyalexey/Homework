@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS categories(
+         id INTEGER PRIMARY KEY AUTOINCREMENT,
+         name VARCHAR(24) NOT NULL UNIQUE
+     );
+''')
+

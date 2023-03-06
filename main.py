@@ -7,8 +7,8 @@ cur: Cursor
 cur.execute('''
     CREATE TABLE IF NOT EXISTS tablitsa(        
          id INTEGER PRIMARY KEY AUTOINCREMENT,
-         name VARCHAR(64) NOT NULL UNIQUE,
-         is_published BOOLEAN DEFAULT(false)
+         name VARCHAR(24) NOT NULL UNIQUE
+        
      );
 ''')
 conn.commit()
