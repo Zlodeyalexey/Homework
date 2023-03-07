@@ -4,4 +4,6 @@ CREATE TABLE IF NOT EXISTS products(
          description VARCHAR(140) NOT NULL,
          category_id INTEGER NOT NULL,
          FOREIGN KEY (category_id) REFERENCES category (id)
+         ON DELETE CASCADE
+         ON UPDATE CASCADE
      );
