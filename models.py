@@ -5,7 +5,6 @@ from sqlalchemy.orm import DeclarativeBase, declared_attr
 class Base(DeclarativeBase):
     pk = Column('id', INT, primary_key=True)
 
-cat = Category(name='cofee')
 
 
     @declared_attr
