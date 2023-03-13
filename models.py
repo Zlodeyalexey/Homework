@@ -160,7 +160,7 @@ class StatusesSchema(BaseModel):
 
 class UsersSchema(BaseModel):
     name: str = Field(min_length= 3, max_length= 18)
-    email: str = Field(min_length= 12, unique_items=True)
+    email: EmailStr = None
 
 
 class CategoriesSchema(BaseModel):
