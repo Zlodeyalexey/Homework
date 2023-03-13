@@ -87,31 +87,31 @@ class CategorySchema(BaseModel):
     name: str = Field(min_length=4)
 
 
-class ProductSchema(Base):
-    name: str
-    descr: str
-    price: Decimal = Field(max_digits=8, decimal_places=2)
-    category_id: int = Field(ge=1)
-
-
-class User(Base):
-    name = Column(VARCHAR(64), nullable=False)
-
-
-class Chat(Base):
-    name = Column(VARCHAR(64), nullable=False)
-
-
-class ChatMember(Base):
-    chat_id = Column(INT, ForeignKey('chat.id', ondelete='CASCADE'), nullable=False)
-    user_id = Column(INT, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
-
-
-class Message(Base):
-    chat_id = Column(INT, ForeignKey('chat.id', ondelete='CASCADE'), nullable=False)
-    user_id = Column(INT, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
-    text = Column(VARCHAR(1024), nullable=False)
-    date_created = Column(TIMESTAMP, nullabel=False, default=now)
-
+# class ProductSchema(Base):
+#     name: str
+#     descr: str
+#     price: Decimal = Field(max_digits=8, decimal_places=2)
+#     category_id: int = Field(ge=1)
+#
+#
+# class User(Base):
+#     name = Column(VARCHAR(64), nullable=False)
+#
+#
+# class Chat(Base):
+#     name = Column(VARCHAR(64), nullable=False)
+#
+#
+# class ChatMember(Base):
+#     chat_id = Column(INT, ForeignKey('chat.id', ondelete='CASCADE'), nullable=False)
+#     user_id = Column(INT, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+#
+#
+# class Message(Base):
+#     chat_id = Column(INT, ForeignKey('chat.id', ondelete='CASCADE'), nullable=False)
+#     user_id = Column(INT, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+#     text = Column(VARCHAR(1024), nullable=False)
+#     date_created = Column(TIMESTAMP, nullabel=False, default=now)
+#
 
 
