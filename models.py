@@ -3,8 +3,9 @@ from sqlalchemy import Column, INT, VARCHAR, DECIMAL, BOOLEAN, ForeignKey, creat
 from sqlalchemy import TIMESTAMP
 from sqlalchemy.orm import DeclarativeBase, declared_attr, sessionmaker, Session
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field, validator, root_validator
 from sqlalchemy.sql.functions import now
+
 
 
 class Base(DeclarativeBase):
@@ -60,31 +61,32 @@ class Base(DeclarativeBase):
         return data
 
 
-class Category(Base):
-    name = Column(VARCHAR(64), nullable=False, unique=True)
-
-    def __repr__(self):
-        return self.name
-
-
-class Product(Base):
-    name = Column(VARCHAR(128), nullable=False)
-    price = Column(DECIMAL(8, 2), nullable=False)
-    descr = Column(VARCHAR(4096), nullable=True)
-    is_published = Column(BOOLEAN, default=False)
-    category_id = Column(INT, ForeignKey('category.id', ondelete='CASCADE'), nullable=False)
-
-    def __repr__(self):
-        return self.name
-
-    @property
-    def category(self):
-        with self.session() as session:
-            return session.get(Category, self.category_id)
+# class Category(Base):
+#     name = Column(VARCHAR(64), nullable=False, unique=True)
+#
+#     def __repr__(self):
+#         return self.name
 
 
-class CategorySchema(BaseModel):
-    name: str = Field(min_length=4)
+# class Product(Base):
+#     name = Column(VARCHAR(128), nullable=False)
+#     price = Column(DECIMAL(8, 2), nullable=False)
+#     descr = Column(VARCHAR(4096), nullable=True)
+#     is_published = Column(BOOLEAN, default=False)
+#     category_id = Column(INT, ForeignKey('category.id', ondelete='CASCADE'), nullable=False)
+#
+#     def __repr__(self):
+#         return self.name
+
+# @property
+#
+# def category(self):
+#     with self.session() as session:
+#         return session.get(Category, self.category_id)
+
+#
+# class CategorySchema(BaseModel):
+#     name: str = Field(min_length=4)
 
 
 # class ProductSchema(Base):
@@ -111,7 +113,76 @@ class CategorySchema(BaseModel):
 #     chat_id = Column(INT, ForeignKey('chat.id', ondelete='CASCADE'), nullable=False)
 #     user_id = Column(INT, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
 #     text = Column(VARCHAR(1024), nullable=False)
-#     date_created = Column(TIMESTAMP, nullabel=False, default=now)
-#
+#     date_created = Column(TIMESTAMP, nullabel=False,
+
+
+class Statuses(Base):
+    name = Column(VARCHAR(10), nullable=False, unique=True)
+
+    def __repr__(self):
+        return self.name
+
+
+class Users(Base):
+    name = Column(VARCHAR(24), nullable=False)
+    email = Column(VARCHAR(24), nullable=False, unique=True)
+
+    def __repr__(self):
+        return self.name
+
+
+class Categories(Base):
+    name = Column(VARCHAR(24), nullable=False, unique=True)
+
+    def __repr__(self):
+        return self.name
+
+
+class Orders(Base):
+    users_id = Column(INT, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    statuses_id = Column(INT, ForeignKey('statuses.id', ondelete='CASCADE'), nullable=False)
+
+
+class Products(Base):
+    title = Column(VARCHAR(36), nullable=False)
+    description = Column(VARCHAR(140))
+    category_id = Column(INT, ForeignKey('categories.id', ondelete='CASCADE'), nullable=False)
+
+
+class Orders_items(Base):
+    order_id = Column(INT, ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+    product_id = Column(INT, ForeignKey('products.id', ondelete='CASCADE'), nullable=False)
+
+
+class StatusesSchema(BaseModel):
+    name: str = Field(min_length=3)
+
+
+class UsersSchema(BaseModel):
+    name: str = Field(min_length= 3, max_length= 18)
+    email: str = Field(min_length= 12, unique_items=True)
+
+
+class CategoriesSchema(BaseModel):
+    name: str = Field(min_length=3, unique_items=True)
+
+
+class OrdersSchema(BaseModel):
+    users_id: int = Field(max_length=18)
+    status_id: int = Field(min_length=8)
+
+
+class ProductsSchema(BaseModel):
+    title: str
+    descr: str
+    category_id: int = Field(ge=1)
+
+
+class OrdersItemsSchema(BaseModel):
+    order_id: int = Field(min_length=3)
+    product_id: int
+
+
+
 
 
