@@ -155,7 +155,7 @@ class Orders_items(Base):
 
 
 class StatusesSchema(BaseModel):
-    name: str = Field(min_length=3)
+    name: str = Field(min_length= 3)
 
 
 class UsersSchema(BaseModel):
@@ -164,12 +164,13 @@ class UsersSchema(BaseModel):
 
 
 class CategoriesSchema(BaseModel):
-    name: str = Field(min_length=3, unique_items=True)
+    name: str = Field(min_length= 3, unique_items=True)
 
 
 class OrdersSchema(BaseModel):
-    users_id: int = Field(max_length=18)
-    status_id: int = Field(min_length=8)
+    users_id: int = Field(max_length= 18)
+    status_id: int = Field(min_length= 8)
+
 
 
 class ProductsSchema(BaseModel):
@@ -180,18 +181,19 @@ class ProductsSchema(BaseModel):
 
 class OrdersItemsSchema(BaseModel):
     order_id: int = Field(min_length=3)
-    product_id: int
+#     product_id: int
 
 import csv
 filename = "users.csv"
-users = [
-    {'name': 'user1', 'email': 'user1@mail.com'},
-    {'name': 'user2', 'email': 'user2@mail.com'},
-    {'name': 'user3', 'email': 'user3@mail.com'},
-
-
-]
-with open(filename, "r", newline="") as file:
+# users = [
+#     {'name': 'user1', 'email': 'user1@mail.com'},
+#     {'name': 'user2', 'email': 'user2@mail.com'},
+#     {'name': 'user3', 'email': 'user3@mail.com'},
+# ]
+with open(filename, newline='') as file:
     reader = csv.DictReader(file)
     for row in reader:
-        print(row['name'], "-", row['email'])
+        print(row['name'], row['email'])
+        print(row)
+
+
