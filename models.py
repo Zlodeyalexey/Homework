@@ -182,7 +182,16 @@ class OrdersItemsSchema(BaseModel):
     order_id: int = Field(min_length=3)
     product_id: int
 
+import csv
+filename = "users.csv"
+users = [
+    {'name': 'user1', 'email': 'user1@mail.com'},
+    {'name': 'user2', 'email': 'user2@mail.com'},
+    {'name': 'user3', 'email': 'user3@mail.com'},
 
 
-
-
+]
+with open(filename, "r", newline="") as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        print(row['name'], "-", row['email'])
