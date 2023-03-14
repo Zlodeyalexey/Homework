@@ -191,3 +191,9 @@ with open('users.csv', 'r', encoding='utf-8') as file:
     reader = csv.DictReader(file)
     for row in reader:
         print(row['name'], row['email'])
+
+with open('users.csv', 'w', encoding='utf-8') as file:
+   w = csv.DictReader(file, fieldnames=('name', 'email'))
+
+
+
