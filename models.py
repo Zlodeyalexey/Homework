@@ -116,84 +116,84 @@ class Base(DeclarativeBase):
 #     date_created = Column(TIMESTAMP, nullabel=False,
 
 
-class Statuses(Base):
-    name = Column(VARCHAR(10), nullable=False, unique=True)
-
-    def __repr__(self):
-        return self.name
-
-
-class Users(Base):
-    name = Column(VARCHAR(24), nullable=False)
-    email = Column(VARCHAR(24), nullable=False, unique=True)
-
-    def __repr__(self):
-        return self.name
-
-
-class Categories(Base):
-    name = Column(VARCHAR(24), nullable=False, unique=True)
-
-    def __repr__(self):
-        return self.name
-
-
-class Orders(Base):
-    users_id = Column(INT, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    statuses_id = Column(INT, ForeignKey('statuses.id', ondelete='CASCADE'), nullable=False)
-
-
-class Products(Base):
-    title = Column(VARCHAR(36), nullable=False)
-    description = Column(VARCHAR(140))
-    category_id = Column(INT, ForeignKey('categories.id', ondelete='CASCADE'), nullable=False)
-
-
-class Orders_items(Base):
-    order_id = Column(INT, ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
-    product_id = Column(INT, ForeignKey('products.id', ondelete='CASCADE'), nullable=False)
-
-
-class StatusesSchema(BaseModel):
-    name: str = Field(min_length= 3)
-
-
-class UsersSchema(BaseModel):
-    name: str = Field(min_length= 3, max_length= 18)
-    email: EmailStr = None
-
-
-class CategoriesSchema(BaseModel):
-    name: str = Field(min_length= 3, unique_items=True)
-
-
-class OrdersSchema(BaseModel):
-    users_id: int = Field(max_length= 18)
-    status_id: int = Field(min_length= 8)
-
-
-
-class ProductsSchema(BaseModel):
-    title: str
-    descr: str
-    category_id: int = Field(ge=1)
-
-
-class OrdersItemsSchema(BaseModel):
-    order_id: int = Field(min_length=3)
+# class Statuses(Base):
+#     name = Column(VARCHAR(10), nullable=False, unique=True)
+#
+#     def __repr__(self):
+#         return self.name
+#
+#
+# class Users(Base):
+#     name = Column(VARCHAR(24), nullable=False)
+#     email = Column(VARCHAR(24), nullable=False, unique=True)
+#
+#     def __repr__(self):
+#         return self.name
+#
+#
+# class Categories(Base):
+#     name = Column(VARCHAR(24), nullable=False, unique=True)
+#
+#     def __repr__(self):
+#         return self.name
+#
+#
+# class Orders(Base):
+#     users_id = Column(INT, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+#     statuses_id = Column(INT, ForeignKey('statuses.id', ondelete='CASCADE'), nullable=False)
+#
+#
+# class Products(Base):
+#     title = Column(VARCHAR(36), nullable=False)
+#     description = Column(VARCHAR(140))
+#     category_id = Column(INT, ForeignKey('categories.id', ondelete='CASCADE'), nullable=False)
+#
+#
+# class Orders_items(Base):
+#     order_id = Column(INT, ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+#     product_id = Column(INT, ForeignKey('products.id', ondelete='CASCADE'), nullable=False)
+#
+#
+# class StatusesSchema(BaseModel):
+#     name: str = Field(min_length= 3)
+#
+#
+# class UsersSchema(BaseModel):
+#     name: str = Field(min_length= 3, max_length= 18)
+#     email: EmailStr = None
+#
+#
+# class CategoriesSchema(BaseModel):
+#     name: str = Field(min_length= 3, unique_items=True)
+#
+#
+# class OrdersSchema(BaseModel):
+#     users_id: int = Field(max_length= 18)
+#     status_id: int = Field(min_length= 8)
+#
+#
+#
+# class ProductsSchema(BaseModel):
+#     title: str
+#     descr: str
+#     category_id: int = Field(ge=1)
+#
+#
+# class OrdersItemsSchema(BaseModel):
+#     order_id: int = Field(min_length=3)
 #     product_id: int
 
 import csv
-filename = "users.csv"
+
 # users = [
 #     {'name': 'user1', 'email': 'user1@mail.com'},
 #     {'name': 'user2', 'email': 'user2@mail.com'},
 #     {'name': 'user3', 'email': 'user3@mail.com'},
 # ]
-with open(filename, newline='') as file:
+with open('users.csv','r', encoding='utf-8') as file:
     reader = csv.DictReader(file)
     for row in reader:
         print(row['name'], row['email'])
-        print(row)
+
 
 
