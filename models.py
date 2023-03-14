@@ -1,11 +1,8 @@
+from pydantic import BaseModel, EmailStr, Field
 from pydantic.types import Decimal
 from sqlalchemy import Column, INT, VARCHAR, DECIMAL, BOOLEAN, ForeignKey, create_engine
 from sqlalchemy import TIMESTAMP
 from sqlalchemy.orm import DeclarativeBase, declared_attr, sessionmaker, Session
-
-from pydantic import BaseModel, EmailStr, Field, validator, root_validator
-from sqlalchemy.sql.functions import now
-
 
 
 class Base(DeclarativeBase):
@@ -15,8 +12,8 @@ class Base(DeclarativeBase):
     session = sessionmaker(bind=engine)
 
     @declared_attr
-    def __tablename__(cls):
-        return ''.join(f'_{i.lower()}' if i.isupper() else i for i in cls.__name__).strip('_')
+    def __tablename__(self):
+        return ''.join(f'_{i.lower()}' if i.isupper() else i for i in self.__name__).strip('_')
 
     @staticmethod
     def create_session(func):
@@ -78,8 +75,8 @@ class Product(Base):
     def __repr__(self):
         return self.name
 
-@property
 
+@property
 def category(self):
     with self.session() as session:
         return session.get(Category, self.category_id)
@@ -113,7 +110,7 @@ class Message(Base):
     chat_id = Column(INT, ForeignKey('chat.id', ondelete='CASCADE'), nullable=False)
     user_id = Column(INT, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     text = Column(VARCHAR(1024), nullable=False)
-    date_created = Column(TIMESTAMP, nullabel=False,
+    date_created = Column(TIMESTAMP, nullabel=False)
 
 
 class Statuses(Base):
@@ -155,22 +152,21 @@ class Orders_items(Base):
 
 
 class StatusesSchema(BaseModel):
-    name: str = Field(min_length= 3)
+    name: str = Field(min_length=3)
 
 
 class UsersSchema(BaseModel):
-    name: str = Field(min_length= 3, max_length= 18)
+    name: str = Field(min_length=3, max_length=18)
     email: EmailStr = None
 
 
 class CategoriesSchema(BaseModel):
-    name: str = Field(min_length= 3, unique_items=True)
+    name: str = Field(min_length=3, unique_items=True)
 
 
 class OrdersSchema(BaseModel):
-    users_id: int = Field(max_length= 18)
-    status_id: int = Field(min_length= 8)
-
+    users_id: int = Field(max_length=18)
+    status_id: int = Field(min_length=8)
 
 
 class ProductsSchema(BaseModel):
@@ -183,6 +179,7 @@ class OrdersItemsSchema(BaseModel):
     order_id: int = Field(min_length=3)
     product_id: int
 
+
 import csv
 
 # users = [
@@ -190,9 +187,7 @@ import csv
 #     {'name': 'user2', 'email': 'user2@mail.com'},
 #     {'name': 'user3', 'email': 'user3@mail.com'},
 # ]
-with open('users.csv','r', encoding='utf-8') as file:
+with open('users.csv', 'r', encoding='utf-8') as file:
     reader = csv.DictReader(file)
     for row in reader:
         print(row['name'], row['email'])
-
-
