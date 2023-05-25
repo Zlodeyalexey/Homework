@@ -1,24 +1,26 @@
-from pydantic import BaseModel, EmailStr, Field, validator, root_validator
+import requests
+from aiohttp import ClientSession
+from ujson import dumps
 
-
-class User(BaseModel):
-    name: str = Field(min_length=2)
-    age: int = Field(ge=18, lt=65)
-    email: EmailStr = None
-    password: str = Field(min_length=8)
-
-    # @validator('password')
-    # def validate_password(cls, value):
-    #     pass
-    @root_validator
-    def validate_values(cls, values):
-        if values.get('name').lower() in values.get('password').lower():
-            raise ValueError('имя не должно содержаться в пароле')
-        return values
-
-
-try:
-    vasya = User(name='vasya', age=19, email='vasya@info.com', password='qwerVaSyAtyuiop')
-    print(vasya.dict())
-except Exception as e:
-    print(e)
+async def main():
+    async with ClientSession(
+        base_url='https://mempool.space',
+    ) as session:
+        response = await session.get(
+            url='/api/adress/1wiz18xYmhRX6xStj2b9t1rwWX4GKUgpv',
+            params='address' "1wiz18xYmhRX6xStj2b9t1rwWX4GKUgpv",
+                    chain_stats: {
+                    funded_txo_count: 5,
+                    funded_txo_sum: 15007599040,
+                    spent_txo_count: 5,
+                    spent_txo_sum: 15007599040,
+                    tx_count: 7
+                    },
+                    mempool_stats: {
+                         funded_txo_count: 0,
+                         funded_txo_sum: 0,
+                         spent_txo_count: 0,
+                         spent_txo_sum: 0,
+                        tx_count: 0
+                    }
+                 })
