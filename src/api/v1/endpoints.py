@@ -15,8 +15,8 @@ async def category_list():
     return [CategoryDetail(**category) for category in categories]
 
 
-@router.post('/category', respinse_model=CategoryDetail, tags=['Category'], name='add_category')
-async def add_category(category: CategoryForm)
+@router.post('/category', response_model=CategoryDetail, tags=['Category'], name='add_category')
+async def add_category(category: CategoryForm):
     category = CategoryDetail(**category.dict())
     max_id = max(categories, key=lambda x: x.get('id'))
     category.id = max_id['id'] + 1

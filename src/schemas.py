@@ -17,7 +17,7 @@ class CategoryForm(BaseModel):
         json_loads =ujson.loads
         title = 'Category'
         schema_extra = {
-            'name': 'Category Name'
+            'example': {'name': 'Category Name'}
         }
 
 
@@ -37,9 +37,10 @@ class CategoryDetail(CategoryForm):
         json_loads =ujson.loads
         title = 'Category'
         schema_extra = {
-            'id': 1,
-            'name': 'Category Name',
-            'slug': 'category-name'
+            'example': {
+                'id': 1,
+                'name': 'Category Name',
+                'slug': 'category-name'}
         }
         orm_mode = True
 
